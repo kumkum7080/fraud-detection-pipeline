@@ -1,0 +1,8 @@
+pandas
+numpy
+pymysql
+cryptography
+SQLAlchemy
+scikit-learn
+streamlit
+plotly

@@ -1,0 +1,16 @@
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Local database files or model joblibs (if necessary, though we keep joblib)
+# backend/app/model.joblib
+
+# Environment credentials
+.env
+
+# System artifacts or tasks
+.system_generated/
+.gemini/
+scratch/

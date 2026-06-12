@@ -1,4 +1,4 @@
- Enterprise Fraud Detection & Risk Mitigation Platform
+## Enterprise Fraud Detection & Risk Mitigation Platform
 
 An end-to-end cyber-security data engineering and machine learning framework designed to isolate and mitigate financial anomaly signatures in real-time. 
 

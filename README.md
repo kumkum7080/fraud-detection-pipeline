@@ -1,4 +1,4 @@
-# Enterprise Fraud Detection & Risk Mitigation Platform
+ Enterprise Fraud Detection & Risk Mitigation Platform
 
 An end-to-end cyber-security data engineering and machine learning framework designed to isolate and mitigate financial anomaly signatures in real-time. 
 
@@ -6,7 +6,7 @@ This platform leverages **FastAPI** for high-frequency endpoints, **MySQL** as t
 
 ---
 
-## 🛡️ Key Features
+##  Key Features
 
 * **Hybrid Scoring Engine**: Combines static heuristic rules (customizable weights) with a standard-scaled **Isolation Forest** ML model to output a combined risk index (0–100%) for every incoming transaction.
 * **Analyst Command Center**: A professional, responsive, light-colored bank dashboard featuring:
@@ -20,7 +20,7 @@ This platform leverages **FastAPI** for high-frequency endpoints, **MySQL** as t
 
 ---
 
-## 📂 Repository Structure
+##  Repository Structure
 
 ```
 fraud-detection-pipeline-main/
@@ -57,7 +57,7 @@ fraud-detection-pipeline-main/
 
 ---
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### 1. Database Configuration
 Ensure your local **MySQL** server is running. Create a database named `pricing_system` (or modify `backend/app/config.py` with your custom credentials).
@@ -90,7 +90,7 @@ Navigate to **`http://localhost:5500/login.html`** in your browser.
 
 ---
 
-## 🔑 Default Credentials
+##  Default Credentials
 
 To explore the portal, log in as either:
 

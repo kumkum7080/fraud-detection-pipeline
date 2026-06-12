@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fraud Detection Command Center</title>
+    <link rel="stylesheet" href="css/bank-style.css?v=1.0.2">
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header>
+        <a href="index.html?v=1.0.2" class="brand">🛡️ <span>Antigravity</span> Fraud</a>
+        <nav class="nav-links">
+            <a href="index.html?v=1.0.2" class="nav-link active">Dashboard</a>
+            <a href="alerts.html?v=1.0.2" class="nav-link">Alert Queue</a>
+            <a href="rules.html?v=1.0.2" class="nav-link">Rules Engine</a>
+        </nav>
+        <div class="user-profile">
+            <div id="analyst-badge" class="user-badge">Analyst: Loading...</div>
+            <button id="logout-btn" class="logout-btn">Logout</button>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <!-- Dashboard Metrics Row -->
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-title">Total Monitored Traffic</div>
+                <div id="metric-traffic" class="metric-value">---</div>
+                <div class="metric-subtext">Cumulative ingested ledger items</div>
+            </div>
+            <div class="metric-card alert-card">
+                <div class="metric-title">Active System Alerts</div>
+                <div id="metric-alerts" class="metric-value">---</div>
+                <div class="metric-subtext">Critical risk outliers requiring review</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">System Baseline Risk Index</div>
+                <div id="metric-risk" class="metric-value">---</div>
+                <div class="metric-subtext">Average network fraud index</div>
+            </div>
+            <div class="metric-card accuracy-card">
+                <div class="metric-title">Engine Detection Accuracy</div>
+                <div id="metric-accuracy" class="metric-value">---</div>
+                <div class="metric-subtext">ML Outlier Recall Rate (True Fraud)</div>
+            </div>
+        </div>
+
+        <!-- System Controls & Live Stream Simulator -->
+        <div class="panel-grid">
+            <div class="card">
+                <div class="card-title">🚨 Telemetry Simulator Control</div>
+                <p class="rule-desc">Generate real-time randomized transaction streams (with geographical mismatch and spending velocity spikes) to test live ingestion scoring.</p>
+                <div style="margin-top: 1rem; display: flex; gap: 1rem;">
+                    <button id="start-sim-btn" class="control-btn btn-success">▶ Start Stream</button>
+                    <button id="stop-sim-btn" class="control-btn btn-danger" disabled>■ Stop Stream</button>
+                    <span id="sim-status-label" class="badge badge-info" style="align-self: center;">OFFLINE</span>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title">🧠 Isolation Forest Model Manager</div>
+                <p class="rule-desc" id="model-status-text">Model status: Loading...</p>
+                <div style="margin-top: 1rem;">
+                    <button id="retrain-model-btn" class="control-btn">⚡ Retrain Outlier Model</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Telemetry Graphs -->
+        <div class="charts-grid">
+            <div class="card">
+                <div class="card-title">🕵️ Outlier Topography (Spending Deviation Ratio vs Velocity)</div>
+                <div class="chart-container">
+                    <canvas id="scatterChart"></canvas>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title">📈 Risk Score Histogram (Frequency Spectrum)</div>
+                <div class="chart-container">
+                    <canvas id="histogramChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Live Alerts Feed -->
+        <div class="card">
+            <div class="card-title">
+                <span>📋 Live Real-Time Risk Incident Feed</span>
+                <a href="alerts.html" class="control-btn" style="padding: 0.35rem 0.75rem; font-size: 0.8rem;">Open Alert Queue</a>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>TX ID</th>
+                            <th>Customer</th>
+                            <th>Amount</th>
+                            <th>1h Velocity</th>
+                            <th>Deviation Ratio</th>
+                            <th>Risk score</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="live-alerts-tbody">
+                        <tr>
+                            <td colspan="7" style="text-align: center; color: var(--text-muted);">Loading alert feed...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Live Toast Container for real-time alerts -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <script type="module" src="js/dashboard.js?v=1.0.1"></script>
+</body>
+</html>

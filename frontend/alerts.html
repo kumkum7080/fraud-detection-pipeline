@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alerts Incident Queue - Fraud Command Center</title>
+    <link rel="stylesheet" href="css/bank-style.css?v=1.0.2">
+</head>
+<body>
+    <header>
+        <a href="index.html?v=1.0.2" class="brand">🛡️ <span>Antigravity</span> Fraud</a>
+        <nav class="nav-links">
+            <a href="index.html?v=1.0.2" class="nav-link">Dashboard</a>
+            <a href="alerts.html?v=1.0.2" class="nav-link active">Alert Queue</a>
+            <a href="rules.html?v=1.0.2" class="nav-link">Rules Engine</a>
+        </nav>
+        <div class="user-profile">
+            <div id="analyst-badge" class="user-badge">Analyst: Loading...</div>
+            <button id="logout-btn" class="logout-btn">Logout</button>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <div class="card">
+            <div class="card-title">
+                <span>🚨 Incident Response Queue</span>
+                <div style="display: flex; gap: 0.5rem;">
+                    <button class="control-btn filter-btn active" data-status="">All Alerts</button>
+                    <button class="control-btn filter-btn" data-status="OPEN">Open</button>
+                    <button class="control-btn filter-btn" data-status="UNDER_REVIEW">Under Review</button>
+                    <button class="control-btn filter-btn" data-status="RESOLVED_SAFE">Resolved (Safe)</button>
+                    <button class="control-btn filter-btn" data-status="RESOLVED_FRAUD">Resolved (Fraud)</button>
+                </div>
+            </div>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>TX ID</th>
+                            <th>Customer</th>
+                            <th>Risk score</th>
+                            <th>Status</th>
+                            <th>Assigned Analyst</th>
+                            <th>Date generated</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="alerts-tbody">
+                        <tr>
+                            <td colspan="8" style="text-align: center; color: var(--text-muted);">Loading alert queue...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alert Detail Modal -->
+    <div id="alert-modal" class="modal-backdrop">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div class="modal-title">🔎 Alert Incident Investigation</div>
+                <button id="modal-close" class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="modal-error" class="badge badge-danger" style="display: none; width: 100%; padding: 0.5rem; margin-bottom: 1rem;"></div>
+                
+                <h4 style="margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">Incident Profile</h4>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                    <div>
+                        <p class="form-label">Alert ID / Risk Index</p>
+                        <p id="info-alert-id" style="font-family: var(--font-mono); font-weight: 600;">---</p>
+                    </div>
+                    <div>
+                        <p class="form-label">Transaction ID</p>
+                        <p id="info-tx-id" style="font-family: var(--font-mono); font-weight: 600;">---</p>
+                    </div>
+                    <div>
+                        <p class="form-label">Customer ID</p>
+                        <p id="info-cust-id" style="font-weight: 600;">---</p>
+                    </div>
+                    <div>
+                        <p class="form-label">Transaction Timestamp</p>
+                        <p id="info-timestamp">---</p>
+                    </div>
+                </div>
+
+                <h4 style="margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">Financial Indicators</h4>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                    <div>
+                        <p class="form-label">Transaction Amount</p>
+                        <p id="info-amount" style="font-weight: 600; color: var(--color-danger);">---</p>
+                    </div>
+                    <div>
+                        <p class="form-label">Rolling Avg (Last 10)</p>
+                        <p id="info-rolling-avg">---</p>
+                    </div>
+                    <div>
+                        <p class="form-label">Deviation Ratio</p>
+                        <p id="info-deviation" style="font-weight: 600;">---</p>
+                    </div>
+                    <div>
+                        <p class="form-label">1-Hour Tx Velocity</p>
+                        <p id="info-velocity">---</p>
+                    </div>
+                    <div>
+                        <p class="form-label">Home Zip / Merchant Zip</p>
+                        <p id="info-zips">---</p>
+                    </div>
+                    <div>
+                        <p class="form-label">Location Variance</p>
+                        <p id="info-zip-mismatch">---</p>
+                    </div>
+                </div>
+
+                <h4 style="margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">Incident Resolution Deck</h4>
+                <div id="resolution-form-section">
+                    <div class="form-group">
+                        <label class="form-label" for="resolve-status">Resolution Decision</label>
+                        <select id="resolve-status" class="form-control">
+                            <option value="">-- Choose resolution --</option>
+                            <option value="RESOLVED_SAFE">False Positive: Transaction Approved (RESOLVED_SAFE)</option>
+                            <option value="RESOLVED_FRAUD">True Fraud: Transaction Blocked & Account Frozen (RESOLVED_FRAUD)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="resolve-notes">Investigation Notes</label>
+                        <textarea id="resolve-notes" class="form-control" placeholder="Provide details on contact with client, verified baseline spending anomalies, etc."></textarea>
+                    </div>
+                </div>
+                
+                <div id="resolution-view-section" style="display: none;">
+                    <div class="form-group">
+                        <p class="form-label">Analyst Resolution Decision</p>
+                        <p id="view-resolve-status">---</p>
+                    </div>
+                    <div class="form-group">
+                        <p class="form-label">Analyst Investigation Notes</p>
+                        <p id="view-resolve-notes" style="background: rgba(255,255,255,0.02); padding: 0.75rem; border-radius: 6px; border: 1px solid var(--border-color); font-style: italic;">---</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="modal-cancel-btn" class="control-btn btn-danger">Cancel</button>
+                <button id="modal-claim-btn" class="control-btn" style="display: none;">Claim Incident</button>
+                <button id="modal-submit-btn" class="control-btn btn-success" style="display: none;">Submit Resolution</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="js/alerts.js?v=1.0.1"></script>
+</body>
+</html>

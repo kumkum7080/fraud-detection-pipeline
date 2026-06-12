@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analyst Login - Fraud Detection Command Center</title>
+    <link rel="stylesheet" href="css/bank-style.css?v=1.0.2">
+</head>
+<body class="login-wrapper">
+    <div class="login-card">
+        <div class="login-brand">
+            🛡️ <span>Antigravity</span> Fraud
+        </div>
+        <div class="login-subtitle">
+            Executive Analytics Command Center Analyst Login
+        </div>
+        
+        <form id="login-form">
+            <div id="error-message" class="badge badge-danger" style="display: none; width: 100%; padding: 0.75rem; margin-bottom: 1.5rem; text-align: center;">
+                Incorrect username or password.
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="username">Username</label>
+                <input class="form-control" type="text" id="username" required placeholder="Enter username..." autocomplete="username">
+            </div>
+            
+            <div class="form-group" style="margin-bottom: 2rem;">
+                <label class="form-label" for="password">Password</label>
+                <input class="form-control" type="password" id="password" required placeholder="Enter password..." autocomplete="current-password">
+            </div>
+            
+            <button class="control-btn" type="submit" style="width: 100%; justify-content: center; font-size: 1rem; padding: 0.85rem;">
+                Authenticate Analyst
+            </button>
+        </form>
+    </div>
+
+    <script type="module">
+        import { auth } from './js/api.js?v=1.0.1';
+
+        // Check if already authenticated, redirect to dashboard
+        const currentToken = auth.getToken();
+        if (currentToken) {
+            window.location.href = "index.html?v=1.0.2";
+        }
+
+        const form = document.getElementById("login-form");
+        const errMsg = document.getElementById("error-message");
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            errMsg.style.display = "none";
+            
+            const u = document.getElementById("username").value;
+            const p = document.getElementById("password").value;
+            
+            try {
+                await auth.login(u, p);
+                window.location.href = "index.html?v=1.0.2";
+            } catch (err) {
+                errMsg.textContent = err.message;
+                errMsg.style.display = "block";
+            }
+        });
+    </script>
+</body>
+</html>
